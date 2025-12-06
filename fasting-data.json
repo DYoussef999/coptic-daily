@@ -19,18 +19,6 @@
   },
   "fastingSeasons": [
     {
-      "name": "Nativity Feast",
-      "type": "nativity-feast",
-      "start": {
-        "month": 4,
-        "day": 29
-      },
-      "end": {
-        "month": 4,
-        "day": 29
-      }
-    },
-    {
       "name": "Nativity Fast",
       "type": "nativity",
       "start": {
@@ -41,6 +29,416 @@
         "month": 4,
         "day": 28
       }
+    },
+    {
+      "name": "Nativity Feast",
+      "type": "nativity-feast",
+      "start": {
+        "month": 4,
+        "day": 29
+      },
+      "end": {
+        "month": 4,
+        "day": 29
+      }
+    }
+  ],
+  "fixedFeasts": [
+    {
+      "name": "Feast of El-Nayrouz (Coptic New Year)",
+      "type": "feast",
+      "month": 1,
+      "day": 1
+    },
+    {
+      "name": "Martyrdom of St. Bartholomew the Apostle",
+      "type": "feast",
+      "month": 1,
+      "day": 1
+    },
+    {
+      "name": "Martyrdom of St. John the Baptist",
+      "type": "feast",
+      "month": 1,
+      "day": 2
+    },
+    {
+      "name": "Martyrdom of Saint Sophia",
+      "type": "feast",
+      "month": 1,
+      "day": 5
+    },
+    {
+      "name": "Martyrdom of Saint Basilissa",
+      "type": "feast",
+      "month": 1,
+      "day": 6
+    },
+    {
+      "name": "Martyrdom of Zacharias the Prophet",
+      "type": "feast",
+      "month": 1,
+      "day": 8
+    },
+    {
+      "name": "Martyrdom of Saint Matruna",
+      "type": "feast",
+      "month": 1,
+      "day": 10
+    },
+    {
+      "name": "Martyrdom of Saint Basilides",
+      "type": "feast",
+      "month": 1,
+      "day": 11
+    },
+    {
+      "name": "Translocation of the Body of St. Stephen the Archdeacon",
+      "type": "feast",
+      "month": 1,
+      "day": 15
+    },
+    {
+      "name": "Feast of the Consecration of the Church of the Honorable Cross",
+      "type": "feast",
+      "month": 1,
+      "day": 17
+    },
+    {
+      "name": "Commemoration of the Virgin St. Mary",
+      "type": "feast",
+      "month": 1,
+      "day": 21
+    },
+    {
+      "name": "Martyrdom of St. Cyprian and St. Justina",
+      "type": "feast",
+      "month": 1,
+      "day": 21
+    },
+    {
+      "name": "Martyrdom of St. Eustathius and His Two Sons",
+      "type": "feast",
+      "month": 1,
+      "day": 27
+    },
+    {
+      "name": "Angels' Annunciation of John the Baptist to Zacharias",
+      "type": "feast",
+      "month": 1,
+      "day": 26
+    },
+    {
+      "name": "Martyrdom of Saint Anastasia",
+      "type": "feast",
+      "month": 2,
+      "day": 1
+    },
+    {
+      "name": "Martyrdom of St. Matthew the Evangelist",
+      "type": "feast",
+      "month": 2,
+      "day": 12
+    },
+    {
+      "name": "Commemoration of the Archangel Michael",
+      "type": "feast",
+      "month": 2,
+      "day": 12
+    },
+    {
+      "name": "Martyrdom of Saint Mari-Mina the Wonder Worker",
+      "type": "feast",
+      "month": 3,
+      "day": 15
+    },
+    {
+      "name": "Beginning of the Nativity Fast",
+      "type": "nativity",
+      "month": 3,
+      "day": 16
+    },
+    {
+      "name": "Departure of Saint John Chrysostom",
+      "type": "feast",
+      "month": 3,
+      "day": 17
+    },
+    {
+      "name": "Commemoration of the Virgin St. Mary",
+      "type": "feast",
+      "month": 3,
+      "day": 21
+    },
+    {
+      "name": "Martyrdom of Saints Cosmas, Damian, Their Brothers and Their Mother",
+      "type": "feast",
+      "month": 3,
+      "day": 22
+    },
+    {
+      "name": "Martyrdom of St. Mercurius Known as the Saint with the Two Swords",
+      "type": "feast",
+      "month": 3,
+      "day": 25
+    },
+    {
+      "name": "Martyrdom of St. James the Mangled",
+      "type": "feast",
+      "month": 3,
+      "day": 27
+    },
+    {
+      "name": "Martyrdom of St. Peter, the Seal of the Martyrs",
+      "type": "feast",
+      "month": 3,
+      "day": 29
+    },
+    {
+      "name": "Entrance of Saint Mary into the Temple at Jerusalem",
+      "type": "feast",
+      "month": 4,
+      "day": 3
+    },
+    {
+      "name": "Martyrdom of St. Andrew the Apostle",
+      "type": "feast",
+      "month": 4,
+      "day": 4
+    },
+    {
+      "name": "Martyrdom of the Saints Barbara and Juliana",
+      "type": "feast",
+      "month": 4,
+      "day": 8
+    },
+    {
+      "name": "Martyrdom of St. Nicholas the Confessor",
+      "type": "feast",
+      "month": 4,
+      "day": 10
+    },
+    {
+      "name": "Martyrdom of St. Stephen the Archdeacon",
+      "type": "feast",
+      "month": 5,
+      "day": 1
+    },
+    {
+      "name": "Commemoration of the Slain Children of Bethlehem",
+      "type": "feast",
+      "month": 5,
+      "day": 3
+    },
+    {
+      "name": "Departure of St. John the Evangelist",
+      "type": "feast",
+      "month": 5,
+      "day": 4
+    },
+    {
+      "name": "Commemoration of the Circumcision of the Lord",
+      "type": "feast",
+      "month": 5,
+      "day": 6
+    },
+    {
+      "name": "Holy Theophany of Our Lord (Epiphany - Paramouni)",
+      "type": "feast",
+      "month": 5,
+      "day": 10
+    },
+    {
+      "name": "Holy Theophany of Our Lord (Baptism of Jesus)",
+      "type": "feast",
+      "month": 5,
+      "day": 11
+    },
+    {
+      "name": "Commemoration of the Miracle at Cana of Galilee",
+      "type": "feast",
+      "month": 5,
+      "day": 13
+    },
+    {
+      "name": "Martyrdom of St. Demiana",
+      "type": "feast",
+      "month": 5,
+      "day": 13
+    },
+    {
+      "name": "Dormition of Our Lady, the Virgin Mary",
+      "type": "feast",
+      "month": 5,
+      "day": 21
+    },
+    {
+      "name": "Departure of St. Anthony the Great",
+      "type": "feast",
+      "month": 5,
+      "day": 22
+    },
+    {
+      "name": "Martyrdom of St. Timothy the Apostle",
+      "type": "feast",
+      "month": 5,
+      "day": 23
+    },
+    {
+      "name": "Presentation of the Lord Christ in the Temple",
+      "type": "feast",
+      "month": 6,
+      "day": 8
+    },
+    {
+      "name": "Departure of St. Paul the First Hermit",
+      "type": "feast",
+      "month": 6,
+      "day": 2
+    },
+    {
+      "name": "Martyrdom of St. Polycarp",
+      "type": "feast",
+      "month": 6,
+      "day": 29
+    },
+    {
+      "name": "Departure of St. Hosea the Prophet",
+      "type": "feast",
+      "month": 6,
+      "day": 26
+    },
+    {
+      "name": "Appearance of the Head of St. John the Baptist",
+      "type": "feast",
+      "month": 6,
+      "day": 30
+    },
+    {
+      "name": "Nativity of the Blessed Virgin Mary",
+      "type": "feast",
+      "month": 7,
+      "day": 1
+    },
+    {
+      "name": "Martyrdom of St. Jeremiah the Prophet",
+      "type": "feast",
+      "month": 7,
+      "day": 5
+    },
+    {
+      "name": "Departure of St. Athanasius the Apostolic",
+      "type": "feast",
+      "month": 7,
+      "day": 7
+    },
+    {
+      "name": "Commemoration of Pentecost",
+      "type": "feast",
+      "month": 7,
+      "day": 18
+    },
+    {
+      "name": "Nativity of St. John the Baptist",
+      "type": "feast",
+      "month": 7,
+      "day": 30
+    },
+    {
+      "name": "Martyrdom of Sts. Peter and Paul the Apostles",
+      "type": "feast",
+      "month": 8,
+      "day": 5
+    },
+    {
+      "name": "Departure of St. Shenouda the Archimandrite",
+      "type": "feast",
+      "month": 8,
+      "day": 7
+    },
+    {
+      "name": "Departure of St. Anba Bishoy",
+      "type": "feast",
+      "month": 8,
+      "day": 8
+    },
+    {
+      "name": "Martyrdom of St. Theodore Bishop of Pentapolis",
+      "type": "feast",
+      "month": 8,
+      "day": 10
+    },
+    {
+      "name": "Martyrdom of St. Thomas the Apostle",
+      "type": "feast",
+      "month": 7,
+      "day": 26
+    },
+    {
+      "name": "Feast of Transfiguration of Our Lord on Mount Tabor",
+      "type": "feast",
+      "month": 9,
+      "day": 13
+    },
+    {
+      "name": "Assumption of the Body of the Virgin St. Mary",
+      "type": "feast",
+      "month": 9,
+      "day": 16
+    },
+    {
+      "name": "Commemoration of the Virgin, the Mother of God",
+      "type": "feast",
+      "month": 9,
+      "day": 21
+    },
+    {
+      "name": "Martyrdom of St. George Prince of the Martyrs",
+      "type": "feast",
+      "month": 8,
+      "day": 23
+    },
+    {
+      "name": "Martyrdom of Sts. Behnam and Sarah",
+      "type": "feast",
+      "month": 4,
+      "day": 14
+    },
+    {
+      "name": "Martyrdom of the Great Saint Anba Moses the Black",
+      "type": "feast",
+      "month": 8,
+      "day": 24
+    },
+    {
+      "name": "Martyrdom of St. James the Apostle",
+      "type": "feast",
+      "month": 8,
+      "day": 2
+    },
+    {
+      "name": "Appearance of the Glorious Cross",
+      "type": "feast",
+      "month": 7,
+      "day": 10
+    },
+    {
+      "name": "Martyrdom of the Forty Martyrs of Sebastia",
+      "type": "feast",
+      "month": 7,
+      "day": 13
+    },
+    {
+      "name": "Raising of Lazarus from the Dead",
+      "type": "feast",
+      "month": 7,
+      "day": 20
+    },
+    {
+      "name": "Martyrdom of the Great Saint Mark the Apostle",
+      "type": "feast",
+      "month": 8,
+      "day": 30
     }
   ]
 }

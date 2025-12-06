@@ -19,58 +19,72 @@ $embeddedData = @"
 
 # Replace the fetch-based loading
 $oldCode = @"
-        // Fasting data loaded from JSON
-        let copticEasterDates = {};
-        let fastingSeasons = [];
-
         // Load fasting data from JSON file
-        async function loadFastingData() {
-            try {
-                const response = await fetch('fasting-data.json');
-                const data = await response.json();
-                
-                // Convert Easter dates from strings to Date objects
-                copticEasterDates = {};
-                for (const [year, dateStr] of Object.entries(data.copticEasterDates)) {
-                    const [y, m, d] = dateStr.split('-').map(Number);
-                    copticEasterDates[year] = new Date(y, m - 1, d);
+        function loadFastingData() {
+            return new Promise(function(resolve, reject) {
+                try {
+                    fetch('fasting-data.json')
+                        .then(response => response.json())
+                        .then(data => {
+                            // Convert Easter dates from strings to Date objects
+                            copticEasterDates = {};
+                            for (const [year, dateStr] of Object.entries(data.copticEasterDates)) {
+                                const [y, m, d] = dateStr.split('-').map(Number);
+                                copticEasterDates[year] = new Date(y, m - 1, d);
+                            }
+                            
+                            fastingSeasons = data.fastingSeasons;
+                            
+                            // Store fixed feasts globally for use in getFastSeason
+                            window.fixedFeasts = data.fixedFeasts || [];
+                            
+                            resolve();
+                        })
+                        .catch(error => {
+                            console.error('Error loading fasting data:', error);
+                            reject(error);
+                        });
+                } catch (error) {
+                    console.error('Error loading fasting data:', error);
+                    reject(error);
                 }
-                
-                fastingSeasons = data.fastingSeasons;
-            } catch (error) {
-                console.error('Error loading fasting data:', error);
-            }
+            });
         }
 "@
 
 $newCode = $embeddedData + @"
 
-        let copticEasterDates = {};
-        let fastingSeasons = [];
-
         // Load fasting data from embedded data
         function loadFastingData() {
-            try {
-                const data = EMBEDDED_FASTING_DATA;
-                
-                // Convert Easter dates from strings to Date objects
-                copticEasterDates = {};
-                for (const [year, dateStr] of Object.entries(data.copticEasterDates)) {
-                    const [y, m, d] = dateStr.split('-').map(Number);
-                    copticEasterDates[year] = new Date(y, m - 1, d);
+            return new Promise(function(resolve) {
+                try {
+                    const data = EMBEDDED_FASTING_DATA;
+                    
+                    // Convert Easter dates from strings to Date objects
+                    copticEasterDates = {};
+                    for (const [year, dateStr] of Object.entries(data.copticEasterDates)) {
+                        const [y, m, d] = dateStr.split('-').map(Number);
+                        copticEasterDates[year] = new Date(y, m - 1, d);
+                    }
+                    
+                    fastingSeasons = data.fastingSeasons;
+                    
+                    // Store fixed feasts globally for use in getFastSeason
+                    window.fixedFeasts = data.fixedFeasts || [];
+                    
+                    resolve();
+                } catch (error) {
+                    console.error('Error loading fasting data:', error);
+                    resolve();
                 }
-                
-                fastingSeasons = data.fastingSeasons;
-            } catch (error) {
-                console.error('Error loading fasting data:', error);
-            }
+            });
         }
 "@
 
 # Replace in HTML
 $html = $html -replace [regex]::Escape($oldCode), $newCode
 
-# Remove async/await
+# Remove async/await from DOMContentLoaded
 $html = $html -replace "document\.addEventListener\('DOMContentLoaded', async function\(\) \{", "document.addEventListener('DOMContentLoaded', function() {"
 $html = $html -replace "await loadFastingData\(\);", "loadFastingData();"
 
