@@ -195,13 +195,28 @@
         }
 
         .fast-indicator.nativity {
-            background: #fef3c7;
-            color: #92400e;
+            background: #3b82f6;
+            color: white;
         }
 
         .fast-indicator.nativity-feast {
-            background: #dcfce7;
-            color: #166534;
+            background: #f59e0b;
+            color: white;
+        }
+
+        .fast-indicator.great-fast {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .fast-indicator.easter-feast {
+            background: #ef4444;
+            color: white;
+        }
+
+        .fast-indicator.easter-feast.feast-day {
+            background: #f59e0b;
+            color: white;
         }
 
         .fast-indicator.none {
@@ -233,6 +248,7 @@
             border-radius: 6px;
             overflow: hidden;
             background: white;
+            width: 240px;
         }
 
         .month-header {
@@ -267,17 +283,20 @@
         }
 
         .day-cell {
-            aspect-ratio: 1 / 1;
-            padding: 4px;
+            width: 34px;
+            height: 34px;
+            padding: 2px;
             border-right: 1px solid #e5e5e5;
             border-bottom: 1px solid #e5e5e5;
-            font-size: 11px;
+            font-size: 10px;
             display: flex;
-            align-items: flex-start;
-            justify-content: flex-start;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             background: white;
             cursor: default;
             position: relative;
+            gap: 1px;
         }
 
         .day-cell:last-child {
@@ -290,11 +309,47 @@
         }
 
         .day-cell.nativity {
-            background: #fef3c7;
+            background: #3b82f6;
+            color: white;
         }
 
         .day-cell.nativity-feast {
-            background: #dcfce7;
+            background: #f59e0b;
+            color: white;
+        }
+
+        .day-cell.great-fast {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .day-cell.easter-feast {
+            background: #ef4444;
+            color: white;
+        }
+
+        .day-cell.easter-feast.feast-day {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .day-label {
+            font-size: 8px;
+            font-weight: 600;
+            text-align: center;
+            line-height: 1.1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            opacity: 0.95;
+        }
+
+        .day-number {
+            font-weight: 500;
+            font-size: 9px;
         }
 
         .day-number {
@@ -369,6 +424,12 @@
                 <div class="calendar-label coptic-label">Coptic Date</div>
                 <div class="date-display" id="copticDate">-</div>
                 <div class="date-detail" id="copticDetail">-</div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="calendar-card">
+                <div class="calendar-label">Fasting Status</div>
                 <div class="fast-indicator" id="fastIndicator">-</div>
             </div>
         </div>
@@ -381,16 +442,6 @@
                 <select class="year-selector" id="gregorianYearSelector"></select>
             </div>
             <div class="year-calendar" id="gregorianCalendar"></div>
-            <div class="calendar-legend">
-                <div class="calendar-legend-item">
-                    <div class="calendar-legend-color" style="background: #fbbf24;"></div>
-                    <span>Nativity Fast</span>
-                </div>
-                <div class="calendar-legend-item">
-                    <div class="calendar-legend-color" style="background: #dcfce7;"></div>
-                    <span>Nativity Feast</span>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -478,6 +529,61 @@
         const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         const gregorianMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
+        // Coptic Orthodox Easter dates (lookup table - verified dates only)
+        const copticEasterDates = {
+            2020: new Date(2020, 3, 19), // April 19
+            2021: new Date(2021, 3, 25), // April 25
+            2022: new Date(2022, 3, 24), // April 24
+            2023: new Date(2023, 3, 30), // April 30
+            2024: new Date(2024, 3, 28), // April 28
+            2025: new Date(2025, 3, 20), // April 20
+            2026: new Date(2026, 3, 12), // April 12
+            2027: new Date(2027, 4, 2),  // May 2
+            2028: new Date(2028, 3, 23), // April 23
+            2029: new Date(2029, 3, 15), // April 15
+            2030: new Date(2030, 3, 7),  // April 7
+            2031: new Date(2031, 3, 27), // April 27
+            2032: new Date(2032, 3, 18), // April 18
+            2033: new Date(2033, 4, 8),  // May 8
+            2034: new Date(2034, 3, 30), // April 30
+            2035: new Date(2035, 3, 22), // April 22
+        };
+
+        // Calculate Great Fast dates from Easter
+        function getGreatFastDates(year) {
+            const easter = copticEasterDates[year];
+            if (!easter) return null;
+
+            const fastStart = new Date(easter);
+            fastStart.setDate(fastStart.getDate() - 55);
+
+            // Holy Week breakdown:
+            // Easter (Sunday) - Resurrection feast
+            // Bright Saturday (day before Easter)
+            // Good Friday (2 days before Easter)
+            // Covenant Thursday (3 days before Easter)
+            // Pascha: Mon-Wed (4-6 days before Easter)
+            
+            const covenantThursday = new Date(easter);
+            covenantThursday.setDate(covenantThursday.getDate() - 3);
+
+            const paschaStart = new Date(easter);
+            paschaStart.setDate(paschaStart.getDate() - 6);
+
+            const greatFastEnd = new Date(easter);
+            greatFastEnd.setDate(greatFastEnd.getDate() - 7);
+
+            return {
+                fastStart: fastStart,
+                paschaStart: paschaStart,
+                covenantThursday: covenantThursday,
+                goodFriday: new Date(easter.getTime() - 2 * 86400000),
+                brightSaturday: new Date(easter.getTime() - 86400000),
+                easterDay: new Date(easter.getTime()),
+                greatFastEnd: greatFastEnd
+            };
+        }
+
         // Fasting seasons data structure (Coptic calendar based)
         const fastingSeasons = [
             {
@@ -496,7 +602,49 @@
 
         // Fast season calculation
         function getFastSeason(gregorianDate) {
-            // Convert to Coptic date to check fasting seasons
+            const year = gregorianDate.getFullYear();
+
+            // Normalize the date to midnight for proper comparison
+            const dateToCheck = new Date(gregorianDate.getFullYear(), gregorianDate.getMonth(), gregorianDate.getDate());
+
+            // Check Great Fast and Holy Week dates
+            const fastData = getGreatFastDates(year);
+            if (fastData) {
+                const covenantThursday = new Date(fastData.covenantThursday.getFullYear(), fastData.covenantThursday.getMonth(), fastData.covenantThursday.getDate());
+                const goodFriday = new Date(fastData.goodFriday.getFullYear(), fastData.goodFriday.getMonth(), fastData.goodFriday.getDate());
+                const brightSaturday = new Date(fastData.brightSaturday.getFullYear(), fastData.brightSaturday.getMonth(), fastData.brightSaturday.getDate());
+                const easterDay = new Date(fastData.easterDay.getFullYear(), fastData.easterDay.getMonth(), fastData.easterDay.getDate());
+                const paschaStart = new Date(fastData.paschaStart.getFullYear(), fastData.paschaStart.getMonth(), fastData.paschaStart.getDate());
+
+                // Check for specific Holy Week days (Covenant Thu, Good Fri, Bright Sat, Easter Sun)
+                if (dateToCheck.getTime() === covenantThursday.getTime()) {
+                    return { name: 'Covenant Thursday', type: 'easter-feast' };
+                }
+                if (dateToCheck.getTime() === goodFriday.getTime()) {
+                    return { name: 'Good Friday', type: 'easter-feast' };
+                }
+                if (dateToCheck.getTime() === brightSaturday.getTime()) {
+                    return { name: 'Bright Saturday', type: 'easter-feast' };
+                }
+                if (dateToCheck.getTime() === easterDay.getTime()) {
+                    return { name: 'Resurrection', type: 'easter-feast' };
+                }
+
+                // Check for Pascha (Mon-Wed before Holy Week)
+                if (dateToCheck >= paschaStart && dateToCheck < covenantThursday) {
+                    return { name: 'Pascha', type: 'easter-feast' };
+                }
+
+                // Check if it's Great Fast (before Pascha)
+                const fastStart = new Date(fastData.fastStart.getFullYear(), fastData.fastStart.getMonth(), fastData.fastStart.getDate());
+                const greatFastEnd = new Date(fastData.greatFastEnd.getFullYear(), fastData.greatFastEnd.getMonth(), fastData.greatFastEnd.getDate());
+                
+                if (dateToCheck >= fastStart && dateToCheck <= greatFastEnd) {
+                    return { name: 'Great Fast', type: 'great-fast' };
+                }
+            }
+
+            // Convert to Coptic date to check fixed fasting seasons
             const coptic = gregorianToCoptic(gregorianDate);
 
             // Check against fasting seasons data
@@ -548,7 +696,11 @@
             const fastSeason = getFastSeason(today);
             const fastIndicator = document.getElementById('fastIndicator');
             fastIndicator.textContent = fastSeason.name;
-            fastIndicator.className = `fast-indicator ${fastSeason.type}`;
+            let className = `fast-indicator ${fastSeason.type}`;
+            if (fastSeason.name === 'Resurrection') {
+                className += ' feast-day';
+            }
+            fastIndicator.className = className;
         }
 
         function updateDatesFromInput() {
@@ -581,7 +733,11 @@
             const fastSeason = getFastSeason(selectedDate);
             const fastIndicator = document.getElementById('fastIndicator');
             fastIndicator.textContent = fastSeason.name;
-            fastIndicator.className = `fast-indicator ${fastSeason.type}`;
+            let className = `fast-indicator ${fastSeason.type}`;
+            if (fastSeason.name === 'Resurrection') {
+                className += ' feast-day';
+            }
+            fastIndicator.className = className;
         }
 
         function setTodayDate() {
@@ -657,9 +813,16 @@
                     const date = new Date(year, month, day);
                     const fastSeason = getFastSeason(date);
                     const cell = document.createElement('div');
-                    cell.className = `day-cell ${fastSeason.type}`;
+                    let className = `day-cell ${fastSeason.type}`;
+                    if (fastSeason.name === 'Resurrection') {
+                        className += ' feast-day';
+                    }
+                    cell.className = className;
                     cell.title = `${monthName} ${day}: ${fastSeason.name}`;
                     cell.innerHTML = `<span class="day-number">${day}</span>`;
+                    if (fastSeason.type !== 'none') {
+                        cell.innerHTML += `<span class="day-label">${fastSeason.name}</span>`;
+                    }
                     grid.appendChild(cell);
                 }
 
