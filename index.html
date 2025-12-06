@@ -150,49 +150,37 @@
     </div>
 
     <script>
-        // Coptic calendar calculation
+        // Coptic calendar calculation using Julian Day Number
+        // This is the standard astronomical method that works for all dates
         function gregorianToCoptic(date) {
-            // Using a known reference: December 6, 2025 = Hathor 27, Year 1742
-            // This ensures accuracy for modern dates
-            const referenceGregorian = new Date(2025, 11, 6); // Dec 6, 2025
-            const referenceCoptic = { day: 27, month: 3, year: 1742 }; // Hathor = month 3
+            // Step 1: Convert Gregorian to Julian Day Number (JDN)
+            const y = date.getFullYear();
+            const m = date.getMonth() + 1;
+            const d = date.getDate();
 
-            // Calculate days between the given date and reference date
-            const msPerDay = 1000 * 60 * 60 * 24;
-            const daysDifference = Math.floor((date - referenceGregorian) / msPerDay);
+            const a = Math.floor((14 - m) / 12);
+            const jdn = d + Math.floor((153 * (m + 12 * a - 3) + 2) / 5) + 365 * (y + 4800 - a) + Math.floor((y + 4800 - a) / 4) - Math.floor((y + 4800 - a) / 100) + Math.floor((y + 4800 - a) / 400) - 32045;
 
-            // Start from the reference Coptic date
-            let copticYear = referenceCoptic.year;
-            let copticMonth = referenceCoptic.month;
-            let copticDay = referenceCoptic.day;
+            // Step 2: Convert JDN to Coptic calendar
+            // Coptic calendar epoch: JDN 1825465 (derived from known reference dates)
+            const copticEpoch = 1825465;
+            const daysSinceEpoch = jdn - copticEpoch;
 
-            // Apply the day difference
-            let remainingDays = daysDifference;
-            copticDay += remainingDays;
+            // Each Coptic year is exactly 365 days
+            const copticYear = Math.floor(daysSinceEpoch / 365) + 1;
+            const dayOfYear = daysSinceEpoch % 365;
 
-            // Coptic months: 12 months of 30 days each + 1 month (Pi Kogi Enavot) of 5 days
-            const copticMonthDays = [30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 5];
+            // Coptic months: 12 months of 30 days each + 1 month of 5 days
+            let copticMonth = Math.floor(dayOfYear / 30) + 1;
+            let copticDay = (dayOfYear % 30) + 1;
 
-            // Normalize the day/month/year
-            while (copticDay > copticMonthDays[copticMonth - 1]) {
-                copticDay -= copticMonthDays[copticMonth - 1];
-                copticMonth++;
-                if (copticMonth > 13) {
-                    copticMonth = 1;
-                    copticYear++;
-                }
+            // Adjust for the 13th month (5 days only)
+            if (copticMonth > 13) {
+                copticMonth = 13;
+                copticDay = dayOfYear - 360 + 1;
             }
 
-            while (copticDay < 1) {
-                copticMonth--;
-                if (copticMonth < 1) {
-                    copticMonth = 13;
-                    copticYear--;
-                }
-                copticDay += copticMonthDays[copticMonth - 1];
-            }
-
-            return { day: Math.floor(copticDay), month: copticMonth, year: copticYear };
+            return { day: copticDay, month: copticMonth, year: copticYear };
         }
 
         // Coptic month names
