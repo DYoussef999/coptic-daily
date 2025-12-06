@@ -110,6 +110,31 @@
             margin: 20px 0;
         }
 
+        .fast-indicator {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .fast-indicator.nativity {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .fast-indicator.nativity-feast {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .fast-indicator.none {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
         @media (max-width: 600px) {
             .container {
                 padding: 30px 20px;
@@ -146,6 +171,7 @@
             <div class="calendar-label coptic-label">Coptic Date</div>
             <div class="date-display" id="copticDate">-</div>
             <div class="date-detail" id="copticDetail">-</div>
+            <div class="fast-indicator" id="fastIndicator">-</div>
         </div>
     </div>
 
@@ -193,6 +219,24 @@
         const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         const gregorianMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
+        // Fast season calculation
+        function getFastSeason(gregorianDate) {
+            // Convert to Coptic date to check fasting seasons
+            const coptic = gregorianToCoptic(gregorianDate);
+
+            // Nativity Feast: Kiahk 29 (month 4, day 29)
+            if (coptic.month === 4 && coptic.day === 29) {
+                return { name: 'Nativity Feast', type: 'nativity-feast' };
+            }
+
+            // Nativity Fast: Hathor 16 (month 3) to Kiahk 29 (month 4)
+            if ((coptic.month === 3 && coptic.day >= 16) || (coptic.month === 4 && coptic.day <= 29)) {
+                return { name: 'Nativity Fast', type: 'nativity' };
+            }
+
+            return { name: 'No Fast', type: 'none' };
+        }
+
         function updateDates() {
             const today = new Date();
 
@@ -212,6 +256,12 @@
 
             document.getElementById('copticDate').textContent = `${copticMonthName} ${coptic.day}`;
             document.getElementById('copticDetail').textContent = `${copticDay}, Year ${coptic.year}`;
+
+            // Fast season
+            const fastSeason = getFastSeason(today);
+            const fastIndicator = document.getElementById('fastIndicator');
+            fastIndicator.textContent = fastSeason.name;
+            fastIndicator.className = `fast-indicator ${fastSeason.type}`;
         }
 
         function updateDatesFromInput() {
@@ -239,6 +289,12 @@
 
             document.getElementById('copticDate').textContent = `${copticMonthName} ${coptic.day}`;
             document.getElementById('copticDetail').textContent = `${copticDay}, Year ${coptic.year}`;
+
+            // Fast season
+            const fastSeason = getFastSeason(selectedDate);
+            const fastIndicator = document.getElementById('fastIndicator');
+            fastIndicator.textContent = fastSeason.name;
+            fastIndicator.className = `fast-indicator ${fastSeason.type}`;
         }
 
         function setTodayDate() {
